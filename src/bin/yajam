@@ -1,0 +1,75 @@
+#!/bin/sh
+#
+# Copyright (c) 2015 daemotron
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+YAJAMPATH=$(/bin/realpath $0)
+YAJAMPREFIX=${YAJAMPATH%\/bin/*}
+YAJAMPREFIX=${YAJAMPREFIX}/share/yajam
+
+# Yajam version
+YAJAM_VERSION="0.1-pre"
+
+# undocumented flag for debugging purposes only
+SETX=""
+
+while getopts "e:Nx" FLAG; do
+    case ${FLAG} in
+        e)
+            if [ ! -d "${OPTARG}" ]; then
+                echo "Error: argument '${OPTARG}' is not a directory"
+                exit 1
+            fi
+            export YAJAM_ETC=${OPTARG}
+            ;;
+        N)
+            USE_COLORS="no"
+            ;;
+        x)
+            SETX="-x"
+            ;;
+        *)
+            CMD=help
+            YAJAM_STATUS=1
+            ;;
+    esac
+done
+
+shift $((OPTIND-1))
+[ $# -lt 1 ] && CMD=help && YAJAM_STATUS=1
+
+: ${CMD:=$1}
+shift
+
+case "${CMD}" in
+    help|version)
+        ;;
+    *)
+        CMD=help
+        YAJAM_STATUS=1
+        ;;
+esac
+
+CMD_ENV="PATH=${PATH} YAJAM_VERSION=${YAJAM_VERSION}"
+[ -n "${YAJAM_ETC}" ] && CMD_ENV="${CMD_ENV} YAJAM_ETC=${YAJAM_ETC}"
+[ -n "${YAJAM_STATUS}" ] && CMD_ENV="${CMD_ENV} YAJAM_STATUS=${YAJAM_STATUS}"
+[ -n "${USE_COLORS}" ] && CMD_ENV="${CMD_ENV} USE_COLORS=${USE_COLORS}"
+
+exec env -i ${CMD_ENV} /bin/sh ${SETX} "${YAJAMPREFIX}/${CMD}.sh" $@

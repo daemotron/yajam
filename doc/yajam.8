@@ -1,0 +1,94 @@
+.\" Copyright (c) 2015 daemotron
+.\"
+.\" Permission is hereby granted, free of charge, to any person obtaining a copy
+.\" of this software and associated documentation files (the "Software"), to
+.\" deal in the Software without restriction, including without limitation the
+.\" rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+.\" sell copies of the Software, and to permit persons to whom the Software is
+.\" furnished to do so, subject to the following conditions:
+.\"
+.\" The above copyright notice and this permission notice shall be included in
+.\" all copies or substantial portions of the Software.
+.\"
+.\" THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+.\" IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+.\" FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+.\" AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+.\" LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+.\" FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+.\" IN THE SOFTWARE.
+.\"
+.\" Note: The date here should be updated whenever a non-trivial
+.\" change is made to the manual page.
+.Dd January 2, 2015
+.Dt YAJAM 8
+.Os
+.Sh NAME
+.Nm yajam
+.Nd yet another jail management tool
+.Sh SYNOPSIS
+.Nm
+.Op Fl e Ar etcdir
+.Op Fl N
+.Cm command
+.Op Ar options
+.Sh DESCRIPTION
+The
+.Nm
+tool is used to manage FreeBSD jails.
+.Sh GLOBAL OPTIONS
+.Nm
+accepts these global options:
+.Bl -tag -width "-f conffile"
+.It Fl e Ar etcdir
+Path to the directory where yajam will find its configuration data.
+See
+.Sx FILES
+and
+.Sx ENVIRONMENT
+for more information.
+.It Fl N
+Disable color support.
+.El
+.Sh COMMANDS
+The first argument to
+.Nm
+must be a
+.Cm command
+from the following list:
+.Bl -tag -width "-f conffile"
+.It init
+This command initialises the basic infrastructure (i. e. ZFS dataset etc.)
+needed by
+.Nm
+.Sh ENVIRONMENT
+The
+.Nm
+command may use the following environment variable:
+.Bl -tag -width "YAJAM_ETC"
+.It Pa YAJAM_ETC
+If specified, the path to yajam's config directory.
+Defaults to /usr/local/etc.
+.El
+.Sh FILES
+.Bl -tag -width ".Pa YAJAM_ETC/yajam.conf" -compact
+.It Pa YAJAM_ETC/yajam.conf
+See self-documented
+.Ar /usr/local/etc/yajam.conf.sample
+for example.
+.El
+.Sh EXIT STATUS
+.Ex -std
+.Sh EXAMPLES
+No examples yet - section still to be filled.
+.Sh COMPATIBILITY
+Compatibility has been tested with the FreeBSD
+.Xr sh 1
+command interpreter in FreeBSD 10.
+.Sh BUGS
+Hopefully none. In case you encounter one, please file a bug
+report at
+.Pp
+.Lk https://github.com/daemotron/yajam/issues
+.Sh AUTHOR
+.An Jesco ``Daemotron`` Freund Aq mail@daemotron.net

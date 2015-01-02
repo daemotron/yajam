@@ -1,0 +1,27 @@
+# ++++++++++++++++++++++++++++
+# + Yajam Configuration File +
+# ++++++++++++++++++++++++++++
+#
+# Basically, this file is an ordinary shell script setting some key
+# configuration variables. Therefore, compliance with bourne shell
+# syntax must be preserved:
+#
+# * Lines prefixed with `#` are considered as comments.
+#   Inline comments are also supported.
+# * Strings including white spaces must be enclosed by quotation marks
+# * White spaces around the assignment operator (=) are NOT allowed!
+
+# ZFS SETTINGS
+# ============
+
+# ZFS pool on which the jail infrastructure resides
+#
+#ZPOOL=tank
+
+# root of the yajam zfs file system
+#
+#ZROOTFS=/jails
+
+# mount point of the yajam zfs file system
+#
+#ZMOUNT=/jails
