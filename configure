@@ -113,15 +113,15 @@ while [ "$#" -gt "0" ]; do
             if [ "$#" -gt "1" ]; then
                 check=$($b_grep "^${2}:" ${GROUPFILE} | $b_wc -l)
                 if [ "${check}" -ne "1" ]; then
-                    echo -en "${red}>>> Error: ${normal}argument ${cyan}'${2}'"
-                    echo -e "${normal} is not a valid group${normal}"
+                    printf "${red}>>> Error: ${normal}argument ${cyan}'${2}'"
+                    printf "${normal} is not a valid group${normal}\n"
                     exit 1
                 else
                     GROUP=${2}
                 fi
             else
-                echo -en "${red}>>> Error: ${normal}expected argument ${green}"
-                echo -e "group ${normal}for option ${red}-g${normal}"
+                printf "${red}>>> Error: ${normal}expected argument ${green}"
+                printf "group ${normal}for option ${red}-g${normal}\n"
                 exit 1
             fi
             shift 2
@@ -130,15 +130,15 @@ while [ "$#" -gt "0" ]; do
             if [ "$#" -gt "1" ]; then
                 { check=$($b_id -un ${2} | $b_wc -l); }> /dev/null 2>&1
                 if [ "${check}" -ne "1" ]; then
-                    echo -en "${red}>>> Error: ${normal}argument ${cyan}'${2}'"
-                    echo -e "${normal} is not a valid user${normal}"
+                    printf "${red}>>> Error: ${normal}argument ${cyan}'${2}'"
+                    printf "${normal} is not a valid user${normal}\n"
                     exit 1
                 else
                     OWNER=${2}
                 fi
             else
-                echo -en "${red}>>> Error: ${normal}expected argument ${green}"
-                echo -e "user ${normal}for option ${red}-o${normal}"
+                printf "${red}>>> Error: ${normal}expected argument ${green}"
+                printf "user ${normal}for option ${red}-o${normal}\n"
                 exit 1
             fi
             shift 2
@@ -148,13 +148,13 @@ while [ "$#" -gt "0" ]; do
                 if [ -d ${2} ]; then
                     PREFIX=$(echo ${2} | $b_sed 's/\/$//g')
                 else
-                    echo -en "${red}>>> Error: ${normal}argument ${cyan}'${2}'"
-                    echo -e "${normal}is not a directory${normal}"
+                    printf "${red}>>> Error: ${normal}argument ${cyan}'${2}'"
+                    printf "${normal}is not a directory${normal}\n"
                     exit 1
                 fi
             else
-                echo -en "${red}>>> Error: ${normal}expected argument ${green}"
-                echo -e "prefix ${normal}for option ${red}-p${normal}"
+                printf "${red}>>> Error: ${normal}expected argument ${green}"
+                printf "prefix ${normal}for option ${red}-p${normal}\n"
                 exit 1
             fi
             shift 2
@@ -181,27 +181,27 @@ done
 
 if [ "${OS}" != "FreeBSD" ]; then
     if [ "${IGNORE_OS}" != "yes" ]; then
-        echo -en "${red}>>> Error: ${normal}the ${cyan}${OS} ${normal}operating"
-        echo -e " system is not supported by yajam"
+        printf "${red}>>> Error: ${normal}the ${cyan}${OS} ${normal}operating"
+        printf " system is not supported by yajam\n"
         exit 1
     else
-        echo -en "${amber}>>> Warning: ${normal}the ${cyan}${OS} ${normal}"
-        echo -e "operating system is not supported by yajam"
+        printf "${amber}>>> Warning: ${normal}the ${cyan}${OS} ${normal}"
+        printf "operating system is not supported by yajam\n"
     fi
 else
     if [ "${MAJOR}" -lt "10" ]; then
-        echo -en "${amber}>>> Warning: ${normal}yajam has not been tested with"
-        echo -e " FreeBSD versions < 10.0"
+        printf "${amber}>>> Warning: ${normal}yajam has not been tested with"
+        printf " FreeBSD versions < 10.0\n"
     fi
 fi
 
 if [ "${SIM}" -ge "1" ]; then
-    echo -en "${amber}Configuration results ${normal}${magenta}(simulation "
-    echo -e "only)${normal}:"
-    echo -e "${green}>>> ${white}Install binary:        ${cyan}${b_install}"
-    echo -e "${green}>>> ${white}Installation prefix:   ${cyan}${PREFIX}"
-    echo -e "${green}>>> ${white}Installation owner:    ${cyan}${OWNER}"
-    echo -e "${green}>>> ${white}Installation group:    ${cyan}${GROUP}"
+    printf "${amber}Configuration results ${normal}${magenta}(simulation "
+    printf "only)${normal}:\n"
+    printf "${green}>>> ${white}Install binary:        ${cyan}${b_install}\n"
+    printf "${green}>>> ${white}Installation prefix:   ${cyan}${PREFIX}\n"
+    printf "${green}>>> ${white}Installation owner:    ${cyan}${OWNER}\n"
+    printf "${green}>>> ${white}Installation group:    ${cyan}${GROUP}\n"
 else
     $b_sed "s@%{INSTALL_BINARY}@${b_install}@g" $TEMPLATE | \
         $b_sed "s@%{DELETE_BINARY}@${b_rm}@g" | \
