@@ -29,7 +29,7 @@ SCRIPTPREFIX=${SCRIPTPATH%/*}
 b_wc=$(detect_binary "wc")
 b_zfs=$(detect_binary "zfs")
 
-[ -z "${b_zfs}" ] && die 1 "Unable to detect the zfs binary"
+#[ -z "${b_zfs}" ] && die 1 "Unable to detect the zfs binary"
 
 usage() {
     umsg="${COLOR_BOLD}usage: ${COLOR_RED}${COLOR_BOLD}yajam init"
@@ -94,75 +94,18 @@ fi
 
 # Create the basic ZFS dataset structure
 FAIL_FLAG=0
-prog_msg "Creating zfs dataset ${ZPOOL}/${ZROOTFS}"
-if [ "${SIMULATE}" = "yes" ]; then
-    rval=0
-else
-    {
-        ${b_zfs} create -o atime=off -o exec=off -o setuid=off \
-            -o mountpoint=${ZMOUNT} ${ZPOOL}/${ZROOTFS};
-    }> /dev/null 2>&1
-    rval=$?
-fi
-[ "${rval}" -ne "0" ] && prog_fail
-[ "${rval}" -eq "0" ] && prog_success
-FAIL_FLAG=${rval}
+ZFS_FLAGS="-o atime=off -o exec=off -o setuid=off"
+ZFS_LIST="${ZPOOL}/${ZROOTFS}/srv ${ZPOOL}/${ZROOTFS}/sys"
+ZFS_LIST="${ZFS_LIST} ${ZPOOL}/${ZROOTFS}/wrk ${ZPOOL}/${ZROOTFS}/tmp"
 
-prog_msg "Creating zfs dataset ${ZPOOL}/${ZROOTFS}/srv"
-if [ "${SIMULATE}" = "yes" ]; then
-    rval=0
-else
-    {
-        ${b_zfs} create -o atime=off -o exec=off -o setuid=off \
-            ${ZPOOL}/${ZROOTFS}/srv;
-    }> /dev/null 2>&1
-    rval=$?
-fi
-[ "${rval}" -ne "0" ] && prog_fail
-[ "${rval}" -eq "0" ] && prog_success
-FAIL_FLAG=$((${FAIL_FLAG}+${rval}))
+# The root must be created separately (specification of mount point)
+zfs_create "${ZPOOL}/${ZROOTFS}" "${ZFS_FLAGS} -o mountpoint=${ZMOUNT}" "${SIMULATE}"
+FAIL_FLAG=$((${FAIL_FLAG}+${?}))
 
-prog_msg "Creating zfs dataset ${ZPOOL}/${ZROOTFS}/sys"
-if [ "${SIMULATE}" = "yes" ]; then
-    rval=0
-else
-    {
-        ${b_zfs} create -o atime=off -o exec=off -o setuid=off \
-            ${ZPOOL}/${ZROOTFS}/sys;
-    }> /dev/null 2>&1
-    rval=$?
-fi
-[ "${rval}" -ne "0" ] && prog_fail
-[ "${rval}" -eq "0" ] && prog_success
-FAIL_FLAG=$((${FAIL_FLAG}+${rval}))
-
-prog_msg "Creating zfs dataset ${ZPOOL}/${ZROOTFS}/wrk"
-if [ "${SIMULATE}" = "yes" ]; then
-    rval=0
-else
-    {
-        ${b_zfs} create -o atime=off -o exec=off -o setuid=off \
-            ${ZPOOL}/${ZROOTFS}/wrk;
-    }> /dev/null 2>&1
-    rval=$?
-fi
-[ "${rval}" -ne "0" ] && prog_fail
-[ "${rval}" -eq "0" ] && prog_success
-FAIL_FLAG=$((${FAIL_FLAG}+${rval}))
-
-prog_msg "Creating zfs dataset ${ZPOOL}/${ZROOTFS}/tmp"
-if [ "${SIMULATE}" = "yes" ]; then
-    rval=0
-else
-    {
-        ${b_zfs} create -o atime=off -o exec=off -o setuid=off \
-            ${ZPOOL}/${ZROOTFS}/tmp;
-    }> /dev/null 2>&1
-    rval=$?
-fi
-[ "${rval}" -ne "0" ] && prog_fail
-[ "${rval}" -eq "0" ] && prog_success
-FAIL_FLAG=$((${FAIL_FLAG}+${rval}))
+for i in ${ZFS_LIST}; do
+    zfs_create "$i" "${ZFS_FLAGS}" "${SIMULATE}"
+    FAIL_FLAG=$((${FAIL_FLAG}+${?}))
+done
 
 [ "${FAIL_FLAG}" -gt "0" ] && exit 1
 exit 0

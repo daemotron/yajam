@@ -32,6 +32,9 @@ detect_binary() {
     echo $rval
 }
 
+b_realpath=$(detect_binary "realpath")
+b_zfs=$(detect_binary "zfs")
+
 log() {
     if [ -n "${COLOR_ARROW}" ] || [ -z "${1##*\033[*}" ]; then
         printf "${COLOR_ARROW}>>>${COLOR_RESET} ${1}${COLOR_RESET_REAL}\n"
@@ -80,7 +83,23 @@ die() {
     exit $1
 }
 
-b_realpath=$(detect_binary "realpath")
+zfs_create() {
+    if [ $# -ne 3 ]; then
+        die 1 "zfs_create() expects 3 arguments: \"dataset\", \"flags\" and \"simulate\""
+    fi
+    prog_msg "Creating zfs dataset ${1}"
+    if [ "${3}" = "yes" ]; then
+        rval=0
+    else
+        {
+            ${b_zfs} create ${2} ${1}
+        }> /dev/null 2>&1
+        rval=$?
+    fi
+    [ "${rval}" -ne "0" ] && prog_fail
+    [ "${rval}" -eq "0" ] && prog_success
+    return ${rval}
+}
 
 # cd into / to avoid foot-shooting if running from deleted dirs or
 # NFS dir which root has no access to.
