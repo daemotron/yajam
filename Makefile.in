@@ -1,0 +1,52 @@
+# Copyright (c) 2015 daemotron
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+INSTALL	= %{INSTALL_BINARY}
+DELETE	= %{DELETE_BINARY}
+PREFIX	= %{PREFIX}
+OWNER	= %{OWNER}
+GROUP	= %{GROUP}
+
+.PHONY: help install deinstall clean
+
+help:
+	@echo "Please use \`make <target>' where <target> is one of"
+	@echo "  install   to install yajam"
+	@echo "  deinstall to deinstall yajam"
+
+install:
+	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0750 src/bin/yajam $(PREFIX)/sbin
+	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0640 src/etc/yajam.conf.sample $(PREFIX)/etc
+	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0755 -d $(PREFIX)/share/yajam
+	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0644 src/share/yajam/common.sh $(PREFIX)/share/yajam
+	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0644 src/share/yajam/help.sh $(PREFIX)/share/yajam
+	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0644 src/share/yajam/version.sh $(PREFIX)/share/yajam
+	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0755 -d $(PREFIX)/share/yajam/include
+	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0644 src/share/yajam/include/color.sh $(PREFIX)/share/yajam/include
+	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0644 src/share/yajam/include/config.sh $(PREFIX)/share/yajam/include
+	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0644 src/share/yajam/include/defaults.sh $(PREFIX)/share/yajam/include
+
+deinstall:
+	$(DELETE) -f $(PREFIX)/sbin/yajam
+	$(DELETE) -f $(PREFIX)/etc/yajam.conf.sample
+	$(DELETE) -rf $(PREFIX)/share/yajam
+
+clean:
+	$(DELETE) -f Makefile

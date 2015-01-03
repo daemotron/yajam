@@ -34,7 +34,7 @@ umsg="${umsg}${COLOR_BOLD}options${COLOR_WHITE}]"
 echo -e "$umsg
 
 ${COLOR_RED}${COLOR_BOLD}Options:
-    -e ${COLOR_GREEN}${COLOR_BOLD}etcdir${COLOR_RESET}   -- Specify an alternate etc/ dir where poudriere configuration
+    -e ${COLOR_GREEN}${COLOR_BOLD}etcdir${COLOR_RESET}   -- Specify an alternate etc/ dir where yajam configuration
                    resides.
 ${COLOR_RED}${COLOR_BOLD}    -N${COLOR_RESET}          -- Disable colors
 

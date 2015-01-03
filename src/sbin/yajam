@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 YAJAMPATH=$(/bin/realpath $0)
-YAJAMPREFIX=${YAJAMPATH%\/bin/*}
+YAJAMPREFIX=${YAJAMPATH%\/sbin/*}
 YAJAMPREFIX=${YAJAMPREFIX}/share/yajam
 
 # Yajam version

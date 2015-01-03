@@ -1,0 +1,83 @@
+INSTALLATION INSTRUCTIONS
+=========================
+
+This software ships with some utilities allowing a fully automated installation
+process. Please read the following instructions carefully before filing a bug
+report.
+
+
+(1) QUICK START
+
+For those familiar with the unix way of installing software, here is a very
+quick instruction that should work in most cases:
+
+  ./configure
+  make install
+
+Please make sure to run the second line as root (or use sudo to acquire the
+corresponding permissions).
+
+
+(2) CONFIGURATION
+
+As a first step, the configuration script must be run. This will generate the
+Makefile needed to perform the actual installation. In its simplest form, the
+configuration script may be run without any further arguments:
+
+  ./configure
+
+This will autodetect the most reasonable default settings and generate the
+corresponding Makefile. If you want to review the configuration values detected
+by the configuration script before actually applying them, call the script in
+simulation mode:
+
+  ./configure --simulate
+
+The default configuration may be customized by the following options:
+
+  --group <group>       set group ownership to a custom group (by default,
+                        the group with ID 0 is selected automatically)
+
+  --owner <user>        set ownership to a custom user (by default, root is
+                        selected automatically)
+
+  --prefix <directory>  set a different prefix for the installation (by default,
+                        /usr/local is used as installation prefix)
+
+A comprehensive list of flags and options understood by the configuration
+script can be obtained when calling it to print out its help message:
+
+  ./configure --help
+
+
+(3) INSTALLATION
+
+Once the configuration script has created the corresponding make file,
+installation is as easy as running
+
+  make install
+
+This will automatically install all files to the appropriate location on the
+file system. Only caveat to watch out for: by default, files are installed to
+/usr/local, meaning one has to have write access to this location (usually,
+this is a privilege reserved for root).
+
+
+(4) DEINSTALLATION
+
+As long as you did not delete the generated Makefile, the software can be
+deinstalled by running
+
+  make deinstall
+
+This will remove all files previously installed by the make install command
+from your system, given you run this with the appropriate privileges.
+
+Please note that this command will NOT delete your custom configuration files.
+If you would like getting rid of those, you need to delete them manually.
+
+In case you deleted the generated Makefile, be sure using exactly the same
+version of the software and exactly the same arguments for the configuration
+script when trying to re-create the Makefile for deinstallation purposes.
+Otherwise, running make could severely damage your system by deleting the
+wrong files.
