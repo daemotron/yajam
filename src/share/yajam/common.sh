@@ -49,13 +49,28 @@ log_error() {
 log_warn() {
     COLOR_ARROW="${COLOR_WARN}${COLOR_BOLD}" \
         log "${COLOR_WARN}${COLOR_BOLD}Warning:${COLOR_RESET} $@" >&2
+    return 0
 }
 
 log_debug() {
     COLOR_ARROW="${COLOR_DEBUG}${COLOR_BOLD}" \
-    log "${COLOR_DEBUG}${COLOR_BOLD}Debug:${COLOR_RESET}${COLOR_IGNORE} $@" >&2
+        log "${COLOR_DEBUG}${COLOR_BOLD}Debug:${COLOR_RESET}${COLOR_IGNORE} $@" >&2
+    return 0
 }
 
+prog_msg() {
+    COLOR_ARROW="${COLOR_INFO}${COLOR_BOLD}"
+    printf "${COLOR_ARROW}>>>${COLOR_RESET} ${COLOR_INFO}${1}"
+    printf "${COLOR_BOLD} ... ${COLOR_RESET_REAL}"
+}
+
+prog_success() {
+    printf "${COLOR_SUCCESS}${COLOR_BOLD}success${COLOR_RESET_REAL}\n"
+}
+
+prog_fail() {
+    printf "${COLOR_FAIL}${COLOR_BOLD}fail${COLOR_RESET_REAL}\n"
+}
 
 die() {
     if [ $# -ne 2 ]; then

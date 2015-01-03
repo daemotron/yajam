@@ -40,6 +40,7 @@ ${COLOR_RED}${COLOR_BOLD}    -N${COLOR_RESET}          -- Disable colors
 
 ${COLOR_RED}${COLOR_BOLD}Commands:
 ${COLOR_GREEN}${COLOR_BOLD}    help${COLOR_RESET}        -- Show usage
+${COLOR_GREEN}${COLOR_BOLD}    init${COLOR_RESET}        -- Initialise dataset structure
 ${COLOR_GREEN}${COLOR_BOLD}    version${COLOR_RESET}     -- Show the version of yajam
 "
 

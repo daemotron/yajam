@@ -59,7 +59,7 @@ shift $((OPTIND-1))
 shift
 
 case "${CMD}" in
-    help|version)
+    help|init|version)
         ;;
     *)
         CMD=help

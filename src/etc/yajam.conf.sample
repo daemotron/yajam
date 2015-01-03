@@ -20,8 +20,15 @@
 
 # root of the yajam zfs file system
 #
-#ZROOTFS=/jails
+#ZROOTFS=jails
 
 # mount point of the yajam zfs file system
 #
 #ZMOUNT=/jails
+
+# SUBVERSION SETTINGS
+# ===================
+
+# Subversion mirror to be used for retrieving the FreeBSD source tree
+#
+#SVNMIRROR=svn0.eu.freebsd.org

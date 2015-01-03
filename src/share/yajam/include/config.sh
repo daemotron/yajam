@@ -27,7 +27,10 @@
 : ${ZPOOL:=tank}
 
 # root of the yajam zfs file system
-: ${ZROOTFS:=/jails}
+: ${ZROOTFS:=jails}
 
 # mount point for the yajam zfs file system
 : ${ZMOUNT:=/jails}
+
+# Subversion mirror server
+: ${SVNMIRROR:=svn0.eu.freebsd.org}
