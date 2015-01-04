@@ -101,6 +101,22 @@ zfs_create() {
     return ${rval}
 }
 
+zfs_destroy() {
+    if [ $# -ne 3 ]; then
+        die 1 "zfs_destroy() expects 3 arguments: \"dataset\", \"flags\" and \"simulate\""
+    fi
+    local flags="${2}"
+    [ "${3}" = "yes" ] && flags="${flags} -n"
+    prog_msg "Deleting zfs dataset ${1}"
+    {
+        ${b_zfs} destroy ${flags} ${1};
+    }> /dev/null 2>&1
+    rval=$?
+    [ "${rval}" -ne "0" ] && prog_fail
+    [ "${rval}" -eq "0" ] && prog_success
+    return ${rval}
+}
+
 # cd into / to avoid foot-shooting if running from deleted dirs or
 # NFS dir which root has no access to.
 SAVED_PWD="${PWD}"

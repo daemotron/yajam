@@ -38,6 +38,7 @@ install:
 	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0644 src/share/yajam/common.sh $(PREFIX)/share/yajam
 	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0644 src/share/yajam/help.sh $(PREFIX)/share/yajam
 	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0644 src/share/yajam/init.sh $(PREFIX)/share/yajam
+	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0644 src/share/yajam/provide.sh $(PREFIX)/share/yajam
 	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0644 src/share/yajam/version.sh $(PREFIX)/share/yajam
 	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0755 -d $(PREFIX)/share/yajam/include
 	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0644 src/share/yajam/include/color.sh $(PREFIX)/share/yajam/include

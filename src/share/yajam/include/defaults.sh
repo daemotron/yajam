@@ -52,3 +52,9 @@ YJ_MROOT=mroot
 
 # ZFS dataset for the skel template (writable part of a jail)
 YJ_SKEL=skel
+
+# Releng base url within the subversion repository
+YJ_SVN_RELENG=base/releng
+
+# Stable base url within the subversion repository
+YJ_SVN_STABLE=base/stable
