@@ -25,12 +25,6 @@ SCRIPTPATH=$(/bin/realpath $0)
 SCRIPTPREFIX=${SCRIPTPATH%/*}
 . ${SCRIPTPREFIX}/common.sh
 
-# detect required binaries
-b_wc=$(detect_binary "wc")
-b_zfs=$(detect_binary "zfs")
-
-[ -z "${b_zfs}" ] && die 1 "Unable to detect the zfs binary"
-
 usage() {
     umsg="${COLOR_BOLD}usage: ${COLOR_RED}${COLOR_BOLD}yajam init"
     umsg="${umsg} ${COLOR_WHITE}[${COLOR_RED}${COLOR_BOLD}-f${COLOR_WHITE}]"
