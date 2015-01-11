@@ -66,14 +66,10 @@ while getopts "fs" FLAG; do
     esac
 done
 
-# Check if the selected root data set already exists
-{
-    ZROOT_EXISTS=$(${b_zfs} list -H -o name ${ZPOOL}/${ZROOTFS} | $b_wc -l)
-}> /dev/null 2>&1
-
 # If the root data set already exists, destroy it if the -f option
 # was used. Otherwise fail and inform the user.
-if [ "${ZROOT_EXISTS}" -ge "1" ]; then
+zfs_exists "${ZPOOL}/${ZROOTFS}"
+if [ "$?" -eq "0" ]; then
     if [ "${INIT_FORCE}" = "yes" ]; then
         zfs_destroy "${ZPOOL}/${ZROOTFS}" "-r -f" "${SIMULATE}" "no"
         [ "$?" -gt "0" ] && die 1 "Failed to delete zfs dataset ${ZPOOL}/${ZROOTFS}"

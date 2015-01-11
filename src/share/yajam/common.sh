@@ -119,6 +119,19 @@ zfs_destroy() {
     return ${rval}
 }
 
+zfs_exists() {
+    # Check if a ZFS dataset already exists. If true, return 0.
+    # Otherwise, return an exit status of 1.
+    if [ $# -ne 1 ]; then
+        die 1 "zfs_exists() expects 1 argument: \"dataset\""
+    fi
+    {
+        local rval=$(${b_zfs} list -H -o name ${1} | ${b_wc} -l)
+    }> /dev/null 2>&1
+    [ ${rval} -eq "1" ] && return 0
+    return 1
+}
+
 get_branch() {
     # return the correct branch path (i. e. "base/stable" or "base/releng") for
     # a given version number. Versions with major AND minor component
