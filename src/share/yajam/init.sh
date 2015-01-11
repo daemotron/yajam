@@ -75,7 +75,7 @@ done
 # was used. Otherwise fail and inform the user.
 if [ "${ZROOT_EXISTS}" -ge "1" ]; then
     if [ "${INIT_FORCE}" = "yes" ]; then
-        zfs_destroy "${ZPOOL}/${ZROOTFS}" "-r -f" "${SIMULATE}"
+        zfs_destroy "${ZPOOL}/${ZROOTFS}" "-r -f" "${SIMULATE}" "no"
         [ "$?" -gt "0" ] && die 1 "Failed to delete zfs dataset ${ZPOOL}/${ZROOTFS}"
     else
         die 1 "zfs dataset ${ZPOOL}/${ZROOTFS} already exists"
@@ -89,11 +89,11 @@ ZFS_LIST="${ZPOOL}/${ZROOTFS}/${YJ_SRV} ${ZPOOL}/${ZROOTFS}/${YJ_SYS}"
 ZFS_LIST="${ZFS_LIST} ${ZPOOL}/${ZROOTFS}/${YJ_WRK} ${ZPOOL}/${ZROOTFS}/${YJ_TMP}"
 
 # The root must be created separately (specification of mount point)
-zfs_create "${ZPOOL}/${ZROOTFS}" "${ZFS_FLAGS} -o mountpoint=${ZMOUNT}" "${SIMULATE}"
+zfs_create "${ZPOOL}/${ZROOTFS}" "${ZFS_FLAGS} -o mountpoint=${ZMOUNT}" "${SIMULATE}" "no"
 FAIL_FLAG=$((${FAIL_FLAG}+${?}))
 
 for i in ${ZFS_LIST}; do
-    zfs_create "$i" "${ZFS_FLAGS}" "${SIMULATE}"
+    zfs_create "$i" "${ZFS_FLAGS}" "${SIMULATE}" "no"
     FAIL_FLAG=$((${FAIL_FLAG}+${?}))
 done
 

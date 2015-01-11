@@ -86,10 +86,10 @@ die() {
 }
 
 zfs_create() {
-    if [ $# -ne 3 ]; then
-        die 1 "zfs_create() expects 3 arguments: \"dataset\", \"flags\" and \"simulate\""
+    if [ $# -ne 4 ]; then
+        die 1 "zfs_create() expects 4 arguments: \"dataset\", \"flags\", \"simulate\" and \"quiet\""
     fi
-    prog_msg "Creating zfs dataset ${1}"
+    [ "${4}" != "yes" ] && prog_msg "Creating zfs dataset ${1}"
     if [ "${3}" = "yes" ]; then
         rval=0
     else
@@ -98,24 +98,24 @@ zfs_create() {
         }> /dev/null 2>&1
         rval=$?
     fi
-    [ "${rval}" -ne "0" ] && prog_fail
-    [ "${rval}" -eq "0" ] && prog_success
+    [ "${rval}" -ne "0" ] && [ "${4}" != "yes" ] && prog_fail
+    [ "${rval}" -eq "0" ] && [ "${4}" != "yes" ] && prog_success
     return ${rval}
 }
 
 zfs_destroy() {
-    if [ $# -ne 3 ]; then
-        die 1 "zfs_destroy() expects 3 arguments: \"dataset\", \"flags\" and \"simulate\""
+    if [ $# -ne 4 ]; then
+        die 1 "zfs_destroy() expects 4 arguments: \"dataset\", \"flags\", \"simulate\" and \"quiet\""
     fi
     local flags="${2}"
     [ "${3}" = "yes" ] && flags="${flags} -n"
-    prog_msg "Deleting zfs dataset ${1}"
+    [ "${4}" != "yes" ] && prog_msg "Deleting zfs dataset ${1}"
     {
         ${b_zfs} destroy ${flags} ${1};
     }> /dev/null 2>&1
     rval=$?
-    [ "${rval}" -ne "0" ] && prog_fail
-    [ "${rval}" -eq "0" ] && prog_success
+    [ "${rval}" -ne "0" ] && [ "${4}" != "yes" ] && prog_fail
+    [ "${rval}" -eq "0" ] && [ "${4}" != "yes" ] && prog_success
     return ${rval}
 }
 
