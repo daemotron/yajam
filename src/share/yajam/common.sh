@@ -32,7 +32,9 @@ detect_binary() {
     echo $rval
 }
 
+b_grep=$(detect_binary "grep")
 b_realpath=$(detect_binary "realpath")
+b_wc=$(detect_binary "wc")
 b_zfs=$(detect_binary "zfs")
 
 log() {
@@ -115,6 +117,33 @@ zfs_destroy() {
     [ "${rval}" -ne "0" ] && prog_fail
     [ "${rval}" -eq "0" ] && prog_success
     return ${rval}
+}
+
+get_branch() {
+    # return the correct branch path (i. e. "base/stable" or "base/releng") for
+    # a given version number. Versions with major AND minor component
+    # (e. g. "10.1") will point to the "RELENG" branch, whereas major only
+    # versions (e. g. "10") will point to the "STABLE" branch.
+    if [ $# -ne 1 ]; then
+        die 1 "get_branch() expects 1 argument: version"
+    fi
+    local release=$(echo ${1} | $b_grep -E '^[[:digit:]]{1,2}\.[[:digit:]]{1,2}\.[[:digit:]]{1,2}\.{0,1}[[:digit:]]{0,1}$' | $b_wc -l)
+    local releng=$(echo ${1} | $b_grep -E '^[[:digit:]]{1,2}\.[[:digit:]]{1,2}$' | $b_wc -l)
+    local stable=$(echo ${1} | $b_grep -E '^[[:digit:]]{1,2}$' | $b_wc -l)
+    local current=$(echo ${1} | $b_grep -E '^(cur|Cur|CUR|current|Current|CURRENT|head|Head|HEAD)$' | $b_wc -l)
+    if [ "${stable}"  -eq "1" ]; then
+        if [ "${1}" -eq "${YJ_FBSD_CURRENT}" ]; then
+            stable=0
+            current=1
+        elif [ "${1}"  -gt "${YJ_FBSD_CURRENT}" ]; then
+            stable=0
+        fi
+    fi
+    [ "${release}" -eq "1" ] && echo "${YJ_SVN_RELEASE}/${1}" && return 0
+    [ "${releng}" -eq "1" ] && echo "${YJ_SVN_RELENG}/${1}" && return 0
+    [ "${stable}" -eq "1" ] && echo "${YJ_SVN_STABLE}/${1}" && return 0
+    [ "${current}" -eq "1" ] && echo "${YJ_SVN_CURRENT}" && return 0
+    return 1
 }
 
 # cd into / to avoid foot-shooting if running from deleted dirs or
