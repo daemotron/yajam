@@ -30,10 +30,17 @@ help:
 	@echo "Please use \`make <target>' where <target> is one of"
 	@echo "  install   to install yajam"
 	@echo "  deinstall to deinstall yajam"
+	@echo ""
+	@echo "Please note that uninstalling yajam will not remove your"
+	@echo "customized configuration files in $(PREFIX)/etc/yajam.d."
+	@echo "If you want to have these files being removed, please delete"
+	@echo "them manually."
 
 install:
 	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0750 src/bin/yajam $(PREFIX)/sbin
-	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0640 src/etc/yajam.conf.sample $(PREFIX)/etc
+	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0750 -d $(PREFIX)/etc/yajam.d
+	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0640 src/etc/yajam.d/yajam.conf.sample $(PREFIX)/etc/yajam.d
+	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0640 src/etc/yajam.d/src.conf.sample $(PREFIX)/etc/yajam.d
 	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0755 -d $(PREFIX)/share/yajam
 	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0644 src/share/yajam/common.sh $(PREFIX)/share/yajam
 	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0644 src/share/yajam/help.sh $(PREFIX)/share/yajam
@@ -47,7 +54,8 @@ install:
 
 deinstall:
 	$(DELETE) -f $(PREFIX)/sbin/yajam
-	$(DELETE) -f $(PREFIX)/etc/yajam.conf.sample
+	$(DELETE) -f $(PREFIX)/etc/yajam.d/yajam.conf.sample
+	$(DELETE) -f $(PREFIX)/etc/yajam.d/src.conf.sample
 	$(DELETE) -rf $(PREFIX)/share/yajam
 
 clean:

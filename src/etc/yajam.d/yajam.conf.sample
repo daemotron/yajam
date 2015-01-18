@@ -26,9 +26,12 @@
 #
 #ZMOUNT=/jails
 
-# SUBVERSION SETTINGS
-# ===================
+# BUILD SETTINGS
+# ==============
 
 # Subversion mirror to be used for retrieving the FreeBSD source tree
 #
 #SVNMIRROR=svn0.eu.freebsd.org
+
+# Maximum number of parallel build processes to be used
+#MAXBUILD=4
