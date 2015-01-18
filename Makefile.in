@@ -37,7 +37,7 @@ help:
 	@echo "them manually."
 
 install:
-	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0750 src/bin/yajam $(PREFIX)/sbin
+	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0750 src/sbin/yajam $(PREFIX)/sbin
 	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0750 -d $(PREFIX)/etc/yajam.d
 	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0640 src/etc/yajam.d/yajam.conf.sample $(PREFIX)/etc/yajam.d
 	$(INSTALL) -o $(OWNER) -g $(GROUP) -m 0640 src/etc/yajam.d/src.conf.sample $(PREFIX)/etc/yajam.d
