@@ -367,7 +367,7 @@ merge_template() {
         -m ${ZMOUNT}/${YJ_WRK}/${1}/${YJ_SRC} \
         -t ${ZMOUNT}/${YJ_WRK}/${1}/${YJ_TPL}/${YJ_SKEL}/var/tmp/temproot \
         -D ${ZMOUNT}/${YJ_WRK}/${1}/${YJ_TPL}/${YJ_SKEL} \
-        -iFU;
+        -a;
     }> /dev/null 2>&1
     [ "$?" -ne "0" ] && return 1
     tmp_noexec_on
