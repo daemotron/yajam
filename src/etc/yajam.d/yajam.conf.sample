@@ -35,3 +35,26 @@
 
 # Maximum number of parallel build processes to be used
 #MAXBUILD=4
+
+# JAIL TEMPLATE SETTINGS
+# ======================
+
+# Include Perl symlinks when building the jail templates
+#
+#LINKPERL=off
+
+# Login class for the user `root`
+# If set to `none`, no specific login class will be set.
+# This option is intended to be used in conjunction with a jail-specific
+# `login.conf` file provided in the yajam configuration directory.
+#
+#ROOTCLASS=none
+
+# Disable FreeBSD pkg source by default.
+#
+#FREEBSD_PKG=off
+
+# Time Zone to be installed in jails
+# If set to `none`, the system's time zone will be used.
+#
+#TIMEZONE=none

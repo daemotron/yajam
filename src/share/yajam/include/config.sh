@@ -34,3 +34,18 @@
 
 # Subversion mirror server
 : ${SVNMIRROR:=svn0.eu.freebsd.org}
+
+# Maximum number of build processes
+: ${MAXBUILD:=4}
+
+# Link to Perl interpreter
+: ${LINKPERL:=off}
+
+# Root login class
+: ${ROOTCLASS:=none}
+
+# Disable FreeBSD pkg Repository
+: ${FREEBSD_PKG:=off}
+
+# Time Zone
+: ${TIMEZONE:=none}

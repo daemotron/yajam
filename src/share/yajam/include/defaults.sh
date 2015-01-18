@@ -23,8 +23,23 @@
 # This file defines non-configurable defaults, that are used by
 # yajam internally.
 
+# Name of the FreeBSD src.conf file
+YJ_SYS_SRCCONF=/etc/src.conf
+
+# Tmp location
+YJ_SYS_TMP=/tmp
+
+# Name of the yajam etc directory
+YJ_ETC=etc
+
+# Name of the yajam configuration directory
+YJ_YAJAMD=yajam.d
+
 # Name of the yajam configuration file
 YJ_CONF=yajam.conf
+
+# Name of the yajam src configuration file
+YJ_SRCCONF=src.conf
 
 # ZFS dataset for working files and templates
 YJ_WRK=wrk
