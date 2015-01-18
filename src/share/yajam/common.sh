@@ -257,7 +257,7 @@ local_dirs() {
     if [ $# -ne 1 ]; then
         die 1 "local_dirs() expects 1 argument: \"version\""
     fi
-    for i in "local local/etc local/home local/root local/tmp local/var"; do
+    for i in local local/etc local/home local/root local/tmp local/var; do
         ${b_mkdir} -p ${ZMOUNT}/${YJ_WRK}/${1}/${YJ_TPL}/${YJ_MROOT}/${i}
         [ "$?" -ne "0" ] && return 1
     done
