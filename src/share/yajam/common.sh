@@ -127,9 +127,9 @@ version_detailed() {
     fi
     local revision=$(${b_grep} '^REVISION=' ${ZMOUNT}/${YJ_WRK}/${1}/${YJ_SRC}/sys/conf/newvers.sh |  ${b_sed} 's/.*="//g' | ${b_sed} 's/"//g')
     local branch=$(${b_grep} '^BRANCH=' ${ZMOUNT}/${YJ_WRK}/${1}/${YJ_SRC}/sys/conf/newvers.sh |  ${b_sed} 's/.*="//g' | ${b_sed} 's/"//g')
-    local version="${revision}-${version}"
+    local version="${revision}-${branch}"
     [ -z "${version}" ] && return 1
-    echo "{version}" && return 0
+    echo "${version}" && return 0
 }
 
 zfs_create() {
