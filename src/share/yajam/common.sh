@@ -56,6 +56,8 @@ b_sysctl=$(detect_binary "sysctl")
 b_wc=$(detect_binary "wc")
 b_zfs=$(detect_binary "zfs")
 
+svn_flags="--quiet --non-interactive --trust-server-cert"
+
 log() {
     if [ -n "${COLOR_ARROW}" ] || [ -z "${1##*\033[*}" ]; then
         printf "${COLOR_ARROW}>>>${COLOR_RESET} ${1}${COLOR_RESET_REAL}\n"
@@ -220,7 +222,7 @@ svn_checkout() {
     fi
     local uri="$(get_branch ${1})"
     uri="https://${SVNMIRROR}/${uri}"
-    { ${b_svn} checkout ${uri} ${2}; }> /dev/null 2>&1
+    { ${b_svn} ${svn_flags} checkout ${uri} ${2}; }> /dev/null 2>&1
     return $?
 }
 
@@ -229,7 +231,7 @@ svn_update() {
     if [ $# -ne 1 ]; then
         die 1 "svn_update() expects 1 argument: \"path\""
     fi
-    { $b_svn update ${1}; }> /dev/null 2>&1
+    { $b_svn ${svn_flags} update ${1}; }> /dev/null 2>&1
     return $?
 }
 
