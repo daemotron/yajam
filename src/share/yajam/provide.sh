@@ -106,7 +106,7 @@ create_version() {
         [ "$?" -ne "0" ] && prog_fail && return 1
     done
     flags="-o atime=off -o setuid=off"
-    zfs_create" ${ZPOOL}/${ZROOTFS}/${YJ_WRK}/${1}/${YJ_OBJ}" "${flags}" \
+    zfs_create "${ZPOOL}/${ZROOTFS}/${YJ_WRK}/${1}/${YJ_OBJ}" "${flags}" \
         "${SIMULATE}" "yes"
     [ "$?" -ne "0" ] && prog_fail && return 1
     prog_success
