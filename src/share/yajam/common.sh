@@ -132,6 +132,13 @@ version_detailed() {
     echo "${version}" && return 0
 }
 
+version_sys() {
+    local version=$(${b_sysctl} -qn kern.osrelease | ${b_sed} 's/-.*//g' | \
+        ${b_grep} -E '^[[:digit:]]{1,2}\.[[:digit:]]{1,2}$')
+    [ -z "${version}" ] && return 1
+    echo "${version}" && return 0
+}
+
 zfs_create() {
     if [ $# -ne 4 ]; then
         die 1 "zfs_create() expects 4 arguments: \"dataset\", \"flags\", \"simulate\" and \"quiet\""

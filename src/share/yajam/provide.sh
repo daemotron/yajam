@@ -157,6 +157,7 @@ done
 shift $((OPTIND-1))
 [ $# -ge 1 ] && VERSIONS=$@
 [ $# -lt 1 ] && VERSIONS=$(versions_detect)
+[ -z "${VERSIONS}" ] && VERSIONS=$(version_sys)
 [ -z "${VERSIONS}" ] && die 1 "No versions found to be updated."
 
 FAIL_FLAG=0
