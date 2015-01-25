@@ -127,10 +127,12 @@ update_version() {
         die 1 "update_version() expects 1 argument: version"
     fi
     prog_msg "Updating source tree for FreeBSD version ${1}"
+    local revision_original=$(version_detailed "${1}")
     svn_update "${ZMOUNT}/${YJ_WRK}/${1}/${YJ_SRC}"
     [ "$?" -ne "0" ] && prog_fail && return 1
     prog_success
-    build_version ${1}
+    local revision_updated=$(version_detailed "${1}")
+    [ "${revision_original}" != "${revision_updated}" ] && build_version ${1}
     return $?
 }
 
