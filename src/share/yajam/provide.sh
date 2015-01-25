@@ -115,7 +115,7 @@ create_version() {
     [ "$?" -ne "0" ] && prog_fail && return 1
     prog_success
     prog_msg "Adding ${1} version entries to ${YJ_SYS_SRCCONF}"
-    insert_src_conf
+    insert_src_conf ${1}
     [ "$?" -ne "0" ] && prog_fail && return 1
     prog_success
     build_version ${1}
