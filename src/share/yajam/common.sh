@@ -240,8 +240,10 @@ clean_obj() {
     if [ $# -ne 1 ]; then
         die 1 "clean_obj() expects 1 argument: \"version\""
     fi
-    ${b_chflags} -R noschg ${ZMOUNT}/${YJ_WRK}/${1}/${YJ_OBJ}/*
-    [ "$?" -ne "0" ] && return 1
+    {
+        ${b_chflags} -f -R noschg ${ZMOUNT}/${YJ_WRK}/${1}/${YJ_OBJ}/* ;
+    }> /dev/null 2>&1
+    # [ "$?" -ne "0" ] && return 1
     ${b_rm} -rf ${ZMOUNT}/${YJ_WRK}/${1}/${YJ_OBJ}/*
     [ "$?" -ne "0" ] && return 1
     ${b_rm} -rf ${ZMOUNT}/${YJ_WRK}/${1}/${YJ_OBJ}/.??*
