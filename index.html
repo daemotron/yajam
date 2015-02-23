@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Yajam : FreeBSD jail management tool relying heavily on ZFS">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Yajam</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/daemotron/yajam">View on GitHub</a>
+
+          <h1 id="project_title">Yajam</h1>
+          <h2 id="project_tagline">FreeBSD jail management tool relying heavily on ZFS</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/daemotron/yajam/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/daemotron/yajam/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="welcome-to-yajam" class="anchor" href="#welcome-to-yajam" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to yajam</h1>
+
+<p>yajam (<em>yet another jail manager</em>) is a tool designed to efficiently and
+securely manage a larger number of FreeBSD jails. Other than existing tools do,
+yajam does not use
+<a href="http://www.freebsd.org/cgi/man.cgi?query=mount_nullfs">nullfs</a> to share parts
+of the base system among several jails. As of today, there are a few good points
+for not doing so anymore:</p>
+
+<ul>
+<li>disk space is cheap, and the FreeBSD base system is not that big (in
+comparison to the sizes of modern hard disks)</li>
+<li>a dedicated userland per jail allows flexibility with the userland version
+(as long as the jail's FreeBSD userland version is smaller than or equal to
+the host's FreeBSD version)</li>
+<li>and finally, not using nullfs means not being exposed to any potential
+jail-breaking bug (this doesn't mean there currently is one, but file pointer
+issues have already be seen to be a source of hassle in the past, so I
+wouldn't bet my life on the safety of nullfs for now and all times)</li>
+</ul>
+
+<p>yajam puts a strong focus on security and reliability. Therefore, it implements
+some additional restrictions:</p>
+
+<ul>
+<li>to foster reliability, jails are created, updated or upgraded from the
+FreeBSD source tree
+(<a href="http://www.freebsd.org/cgi/man.cgi?query=freebsd-update">freebsd-update</a> is
+not necessarily the most reliable tool when it comes to <strong>not</strong> breaking an
+existing FreeBSD installation)</li>
+<li>the source tree(s) used to build the jails are kept separate from the host
+system's source tree, allowing to apply dedicated restrictions for jails via
+<code>src.conf</code> limitations</li>
+<li>although each jail has got it's own base system, it is kept read-only
+wherever possible (i. e. anything but <code>/home</code>, <code>/etc</code>, <code>/var</code>, <code>/tmp</code> and
+<code>/usr/local</code>), and setuid is only allowed within the read-only part of a jail
+to hedge about malicious manipulations</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Yajam maintained by <a href="https://github.com/daemotron">daemotron</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
